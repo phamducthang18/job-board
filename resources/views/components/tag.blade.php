@@ -1,0 +1,1 @@
+<div class="rounded-sm border px-2 py-1">{{$slot}} </div>
