@@ -5,14 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Job;
 
-class Jobcontroller extends Controller
+class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('job.index',['jobs' =>Job::all()]);
+        $search = $request['search']??null;
+        $min_salary = $request['min_salary']??null;
+        $max_salary = $request['max_salary']??null;
+        $experience = $request['experience']??null;
+        $category = $request['category']??null;
+        $jobs = Job::query();
+
+        if (!empty($search)) {
+           
+            $jobs->where('title', 'like', '%' . $search . '%')
+                 ->orWhere('description', 'like', '%' . $search . '%');
+        }
+        if (!(empty($max_salary)) && !empty($min_salary)) {
+            $jobs->whereBetween('salary', [$min_salary, $max_salary]);
+        } elseif (!empty($min_salary)) {
+            $jobs->where('salary', '>=', $min_salary);
+        } elseif (!empty($max_salary)) {
+            $jobs->where('salary', '<=', $max_salary);
+        }
+        if(!empty($experience)) {
+            $jobs->where('experience', $experience);
+        }
+        if(!empty($category)) {
+            $jobs->where('category', $category);
+        }
+        return view('job.index', ['jobs' => $jobs->get()]);
     }
 
     /**
@@ -20,7 +45,7 @@ class Jobcontroller extends Controller
      */
     public function create()
     {
-        //
+        // Code for creating a new job
     }
 
     /**
@@ -28,13 +53,13 @@ class Jobcontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Code for storing a new job
     }
 
     /**
      * Display the specified resource.
      */
-    public function show( Job $job)
+    public function show(Job $job)
     {
         return view('job.show', compact('job'));
     }
@@ -44,7 +69,7 @@ class Jobcontroller extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Code for editing a job
     }
 
     /**
@@ -52,7 +77,7 @@ class Jobcontroller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Code for updating a job
     }
 
     /**
@@ -60,6 +85,6 @@ class Jobcontroller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Code for deleting a job
     }
 }
