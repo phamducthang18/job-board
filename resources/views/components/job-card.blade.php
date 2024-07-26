@@ -14,6 +14,7 @@
                     <div>{{$job->location}}</div>
             </div>
             <div class="flex space-x-1 text-xs">
+                
                 <x-tag>{{Str::ucfirst($job->experience)}}</x-tag>
                 <x-tag>{{$job->category}}</x-tag>
             </div>
