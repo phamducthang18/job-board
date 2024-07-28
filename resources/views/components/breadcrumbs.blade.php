@@ -1,5 +1,5 @@
 <nav {{$attributes}}>
-        <ul class="flex space-x-4 text-slate-500 ">
+        <ul class="flex space-x-4 text-black ">
             <li>
                 <a href="/">Home</a>
             </li>
