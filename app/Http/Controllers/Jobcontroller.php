@@ -12,32 +12,9 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request['search']??null;
-        $min_salary = $request['min_salary']??null;
-        $max_salary = $request['max_salary']??null;
-        $experience = $request['experience']??null;
-        $category = $request['category']??null;
-        $jobs = Job::query();
-
-        if (!empty($search)) {
-           
-            $jobs->where('title', 'like', '%' . $search . '%')
-                 ->orWhere('description', 'like', '%' . $search . '%');
-        }
-        if (!(empty($max_salary)) && !empty($min_salary)) {
-            $jobs->whereBetween('salary', [$min_salary, $max_salary]);
-        } elseif (!empty($min_salary)) {
-            $jobs->where('salary', '>=', $min_salary);
-        } elseif (!empty($max_salary)) {
-            $jobs->where('salary', '<=', $max_salary);
-        }
-        if(!empty($experience)) {
-            $jobs->where('experience', $experience);
-        }
-        if(!empty($category)) {
-            $jobs->where('category', $category);
-        }
-        return view('job.index', ['jobs' => $jobs->get()]);
+        $filter =request()->only('search','min_salary','max_salary','experience','category');
+        $jobs = Job::filter($filter)->get();
+        return view('job.index', ['jobs' => $jobs]);
     }
 
     /**
