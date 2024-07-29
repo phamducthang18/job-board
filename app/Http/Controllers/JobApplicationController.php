@@ -5,24 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Job;
 
-class JobController extends Controller
+class JobApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $filter =request()->only('search','min_salary','max_salary','experience','category');
-        $jobs = Job::with('employer')->filter($filter)->get();
-        return view('job.index', ['jobs' => $jobs]);
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Job $job)
     {
-        // Code for creating a new job
+        return view('job_application.create',['job'=> $job]);
     }
 
     /**
@@ -30,15 +28,15 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        // Code for storing a new job
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show(string $id)
     {
-        return view('job.show', ['job'=>$job->load('employer.jobs')]);
+        //
     }
 
     /**
@@ -46,7 +44,7 @@ class JobController extends Controller
      */
     public function edit(string $id)
     {
-        // Code for editing a job
+        //
     }
 
     /**
@@ -54,7 +52,7 @@ class JobController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Code for updating a job
+        //
     }
 
     /**
@@ -62,6 +60,6 @@ class JobController extends Controller
      */
     public function destroy(string $id)
     {
-        // Code for deleting a job
+        //
     }
 }
