@@ -26,6 +26,9 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('my-job.index')}}">My Jobs</a>
+                    </li>
+                    <li>
                         <form action="{{route('auth.destroy')}}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -38,9 +41,17 @@
             </ul>
         </nav>
         @if (session('success'))
-        <div class="my-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 opacity-75">
+        <div role="alert"
+            class="my-8 rounded-md border-l-4 border-green-300 bg-green-100 p-4 text-green-700 opacity-75">
             <p class="font-bold">Success!</p>
             <p>{{ session('success') }}</p>
+        </div>
+        @endif
+        @if (session('error'))
+        <div role="after"
+            class="my-8 rounded-md border-l-4 border-red-300 bg-red-100 p-4 text-red-700 opacity-75" >
+            <p class="font-bold">Error!</p>
+            <p>{{session('error')}}</p>
         </div>
         @endif
         {{$slot}}

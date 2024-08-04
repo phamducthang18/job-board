@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class MyJobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('my_job.index');
     }
 
     /**
@@ -20,7 +19,7 @@ class AuthController extends Controller
      */
     public function create()
     {
-        return view('auth.create');
+        //
     }
 
     /**
@@ -28,20 +27,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-    
-        $request->validate([
-            'email' =>'required|email',
-            'password' =>'required',
-        ]);
-        $credentials =$request->only('email', 'password');
-        $remember = $request->filled('remember');
-
-        if (Auth::attempt($credentials, $remember)) {
-            return redirect()->intended('/');
-        }else{
-           
-            return redirect()->back()->with('error','Invalid email or password.');
-        }
+        //
     }
 
     /**
@@ -71,12 +57,8 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy(string $id)
     {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-
-        return redirect('/');
+        //
     }
 }
