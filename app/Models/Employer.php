@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Employer extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['company_name','user_id'];
     public function jobs() :HasMany
     {
         return $this->hasMany(Job::class);

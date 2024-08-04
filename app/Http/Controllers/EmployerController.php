@@ -3,13 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+
+
+class EmployerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+
+
+    public function __construct()
+    {
+     
+        $this->authorizeResource(Employer::class);
+    }
+
     public function index()
     {
         //
@@ -20,7 +30,7 @@ class AuthController extends Controller
      */
     public function create()
     {
-        return view('auth.create');
+        return view('employer.create');
     }
 
     /**
@@ -28,20 +38,13 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
+        auth()->user()->employer()->create(
+            $request->validate([
+                'company_name' => 'required|string|min:3|unique:employers,company_name',
+            ])
+        );
     
-        $request->validate([
-            'email' =>'required|email',
-            'password' =>'required',
-        ]);
-        $credentials =$request->only('email', 'password');
-        $remember = $request->filled('remember');
-
-        if (Auth::attempt($credentials, $remember)) {
-            return redirect()->intended('/');
-        }else{
-           
-            return redirect()->back()->with('error','Invalid email or password.');
-        }
+        return redirect()->route('jobs.index')->with('success', 'Employer created successfully');
     }
 
     /**
@@ -71,12 +74,8 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy(string $id)
     {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-
-        return redirect('/');
+        //
     }
 }
